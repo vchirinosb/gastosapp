@@ -39,13 +39,11 @@ class _RegisterModalState extends State<RegisterModal> {
               ),
               child: child!);
         }).then((value) {
-
       _fechaController.text =
           value == null ? "" : value.toString().substring(0, 10);
 
       return null;
     });
-  
   }
 
   _buildButtonAdd() {
@@ -141,7 +139,9 @@ class _RegisterModalState extends State<RegisterModal> {
                       isSelected: e["name"] == typeSelected,
                       tap: () {
                         typeSelected = e["name"];
-                        setState(() {},);
+                        setState(
+                          () {},
+                        );
                       },
                     ),
                   )

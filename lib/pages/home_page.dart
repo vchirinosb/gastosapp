@@ -13,7 +13,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   List<GastoModel> gastos = [];
 
   // Función para eliminar un gasto
@@ -124,7 +123,8 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Expanded(
                   child: Container(
-                    padding: const EdgeInsets.only(top: 16, right: 16, left: 16),
+                    padding:
+                        const EdgeInsets.only(top: 16, right: 16, left: 16),
                     width: double.infinity,
                     decoration: const BoxDecoration(
                       color: Colors.white,
