@@ -2,12 +2,56 @@ import 'package:flutter/material.dart';
 import 'package:gastosapp/models/gasto_model.dart';
 
 class ItemGastoWidget extends StatelessWidget {
-  // Map<String, dynamic> gastoData;
-  GastoModel gastoData;
+  final GastoModel gastoData;
+  final Function onDelete;
 
-  ItemGastoWidget({super.key, 
+  const ItemGastoWidget({
+    super.key,
     required this.gastoData,
+    required this.onDelete,
   });
+
+  Widget _getIconForType(String type) {
+    print("Tipo de gasto: $type");
+    switch (type) {
+      case "Alimentos":
+        return Image.asset(
+          "assets/images/alimentos.webp",
+          height: 40,
+          width: 40,
+        );
+      case "Bancos y seguro":
+        return Image.asset(
+          "assets/images/bancos.webp",
+          height: 40,
+          width: 40,
+        );
+      case "Entretenimiento":
+        return Image.asset(
+          "assets/images/entretenimiento.webp",
+          height: 40,
+          width: 40,
+        );
+      case "Otros":
+        return Image.asset(
+          "assets/images/otros.webp",
+          height: 40,
+          width: 40,
+        );
+      case "Servicios":
+        return Image.asset(
+          "assets/images/servicios.webp",
+          height: 40,
+          width: 40,
+        );
+      default:
+        return const Icon(
+          Icons.money,
+          size: 40,
+          color: Colors.grey,
+        );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +62,7 @@ class ItemGastoWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
       ),
       child: ListTile(
-        leading: Image.asset(
-          "assets/images/alimentos.webp",
-          height: 40,
-          width: 40,
-        ),
+        leading: _getIconForType(gastoData.type),
         title: Text(
           gastoData.title,
           style: const TextStyle(
@@ -37,12 +77,21 @@ class ItemGastoWidget extends StatelessWidget {
             fontWeight: FontWeight.w400,
           ),
         ),
-        trailing: Text(
-          "S/ ${gastoData.price}",
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w700,
-          ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "S/ ${gastoData.price}",
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.delete, color: Colors.red),
+              onPressed: () => onDelete(),
+            ),
+          ],
         ),
       ),
     );

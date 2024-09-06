@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:gastosapp/models/gasto_model.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -23,7 +22,7 @@ class DbAdmin {
   Future<Database> _initDatabase() async {
     Directory directory = await getApplicationDocumentsDirectory();
     String pathDatabase = join(directory.path, "PagosDB.db");
-    print(pathDatabase);
+
     return await openDatabase(
       pathDatabase,
       version: 1,
@@ -39,50 +38,41 @@ class DbAdmin {
     );
   }
 
-  // INSERTAR GASTOS
+  // Insertar gasto
   Future<int> insertarGasto(GastoModel gasto) async {
     Database? db = await _checkDataBase();
     int res = await db!.insert(
-      "GASTOS", gasto.convertiraMap(),
-      // {
-      //   "title": "Curso flutter",
-      //   "price": 100.0,
-      //   "datetime": "31/08/2024",
-      //   "type": "Otros",
-      // },
+      "GASTOS",
+      gasto.convertiraMap(),
     );
-    print(res);
+
     return res;
   }
 
-  //OBTENER GASTOS
+  // Obtener gastos
   obtenerGastos() async {
     Database? db = await _checkDataBase();
     List data = await db!.query("GASTOS");
     List<GastoModel> gastosList =
         data.map((e) => GastoModel.fromDB(e)).toList();
-    // List data = await db!.query("GASTOS", columns: ["title", "price"]);
-    // List data =
-    //     await db!.rawQuery("SELECT TITLE FROM GASTOS WHERE TYPE = 'Otros'");
-    // List data = await db!.query("GASTOS", where: "TYPE='Alimentos'");
     return gastosList;
-    // print(data);
   }
 
-  // ELIMNAR GASTO
-  delGasto() async {
+  // Eliminar gasto por Id
+  Future<int> delGasto(int id) async {
     Database? db = await _checkDataBase();
-    int res = await db!.delete("GASTOS", where: 'id=1');
-    print(res);
+    int res = await db!.delete("GASTOS", where: 'id = ?', whereArgs: [id]);
+
+    return res;
   }
 
-  // ACTUALIZAR GASTO
+  // Actualizar gasto
   updGasto() async {
     Database? db = await _checkDataBase();
     int res = await db!.update(
       "GASTOS",
       {
-        "title": "actualizandoo",
+        "title": "actualizando",
         "price": 0,
         "type": "Banco",
       },

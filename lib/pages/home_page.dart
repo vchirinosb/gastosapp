@@ -13,8 +13,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // List<Map<String, dynamic>> gastos = [];
+
   List<GastoModel> gastos = [];
+
+  // Función para eliminar un gasto
+  void _deleteGasto(int index) async {
+    GastoModel gasto = gastos[index];
+    if (gasto.id != null) {
+      await DbAdmin().delGasto(gasto.id!);
+      setState(() {
+        gastos.removeAt(index);
+      });
+    }
+  }
 
   Widget buildBusquedaWidget() {
     return Padding(
@@ -75,14 +86,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // floatingActionButton: FloatingActionButton(onPressed: () {
-        //   // DbAdmin dbAdmin = DbAdmin();
-        //   // dbAdmin.checkDataBase();
-        //   // DbAdmin().obtenerGastos();
-        //   // DbAdmin().updGasto();
-        //   DbAdmin().delGasto();
-        //   // dbAdmin.insertarGasto();
-        // }),
         body: Stack(
           children: [
             Column(
@@ -148,7 +151,6 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         buildBusquedaWidget(),
-                        // ItemGastoWidget(),
                         Text(S.of(context).helloAlguien("Jhonny")),
                         Expanded(
                           child: ListView.builder(
@@ -156,6 +158,7 @@ class _HomePageState extends State<HomePage> {
                             itemBuilder: (BuildContext context, int index) {
                               return ItemGastoWidget(
                                 gastoData: gastos[index],
+                                onDelete: () => _deleteGasto(index),
                               );
                             },
                           ),

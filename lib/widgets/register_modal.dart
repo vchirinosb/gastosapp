@@ -39,13 +39,13 @@ class _RegisterModalState extends State<RegisterModal> {
               ),
               child: child!);
         }).then((value) {
-      // print(value);
+
       _fechaController.text =
           value == null ? "" : value.toString().substring(0, 10);
-      print(_fechaController.text);
+
       return null;
     });
-    // print(datepicker);
+  
   }
 
   _buildButtonAdd() {
@@ -59,12 +59,6 @@ class _RegisterModalState extends State<RegisterModal> {
               price: double.parse(_montoController.text),
               datetime: _fechaController.text,
               type: typeSelected);
-          // Map<String, dynamic> gastoMap = {
-          //   "title": _tituloController.text,
-          //   "price": _montoController.text,
-          //   "datetime": _fechaController.text,
-          //   "type": typeSelected,
-          // };
           DbAdmin().insertarGasto(gasto).then((value) {
             if (value > 0) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -147,9 +141,7 @@ class _RegisterModalState extends State<RegisterModal> {
                       isSelected: e["name"] == typeSelected,
                       tap: () {
                         typeSelected = e["name"];
-                        setState(
-                          () {},
-                        );
+                        setState(() {},);
                       },
                     ),
                   )
